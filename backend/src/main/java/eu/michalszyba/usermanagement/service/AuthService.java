@@ -1,6 +1,8 @@
 package eu.michalszyba.usermanagement.service;
 
+import eu.michalszyba.usermanagement.dto.LoginDto;
 import eu.michalszyba.usermanagement.dto.RegisterDto;
+import eu.michalszyba.usermanagement.entity.LoginDetail;
 import eu.michalszyba.usermanagement.entity.Role;
 import eu.michalszyba.usermanagement.entity.User;
 import eu.michalszyba.usermanagement.exception.AppException;
@@ -9,6 +11,10 @@ import eu.michalszyba.usermanagement.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +30,9 @@ public class AuthService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final LoginDetailService loginDetailService;
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
 
     public String register(RegisterDto registerDto) {
         if (userRepository.existsByEmail(registerDto.getEmail())) {
@@ -46,5 +54,17 @@ public class AuthService {
 
         log.info("User " + user + " Register Successfully!");
         return "User Register Successfully!";
+    }
+
+    public String login(LoginDto loginDto) {
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                loginDto.getUsername(),
+                loginDto.getPassword());
+
+        Authentication authenticate = authenticationManager.authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authenticate);
+
+        loginDetailService.saveLoginSuccessful(loginDto.getUsername(), "");
+        return "User logged-in successfully!";
     }
 }

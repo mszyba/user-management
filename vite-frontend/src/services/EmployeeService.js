@@ -1,6 +1,18 @@
 import axios from "axios";
+import { getToken } from "./AuthServices";
 
-const RESR_API_BASE_URL = 'http://localhost:8080/api/employee/all'
+const REST_API_BASE_URL = 'http://localhost:8080/api/employee/all'
 
-export const listEmployees = () => axios.get(RESR_API_BASE_URL);
+
+// Add a request interceptor
+axios.interceptors.request.use(function (config) {
+    config.headers['Authorization'] = getToken();
+
+    return config;
+}, function (error) {
+    // Do something with request error
+    return Promise.reject(error);
+});
+
+export const listEmployees = () => axios.get(REST_API_BASE_URL);
 

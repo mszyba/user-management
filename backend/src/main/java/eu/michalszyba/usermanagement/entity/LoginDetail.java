@@ -13,15 +13,22 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "app_error")
-public class ErrorDetail {
+@Table(name = "app_login_detail")
+public class LoginDetail {
+
+    public LoginDetail(LocalDateTime timeStamp, String userName, boolean successful, String details) {
+        this.timeStamp = timeStamp;
+        this.userName = userName;
+        this.successful = successful;
+        this.details = details;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private LocalDateTime timeStamp;
-    private String message;
-    private String details;
     private String userName;
+    private boolean successful;
+    private String details;
 }
