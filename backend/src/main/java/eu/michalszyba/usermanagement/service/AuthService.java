@@ -69,7 +69,8 @@ public class AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String token = jwtTokenProvider.generateToken(authentication);
-//        loginDetailService.saveLoginSuccessful(loginDto.getUsername(), "");
+
+        log.info(loginDto.getUsername(), "APP_LOGIN");
 
         Optional<User> userOptional = userRepository.findByEmail(loginDto.getUsername());
 

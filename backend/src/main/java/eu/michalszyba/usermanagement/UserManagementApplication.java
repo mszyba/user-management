@@ -1,11 +1,12 @@
 package eu.michalszyba.usermanagement;
 
+import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 @SpringBootApplication
 public class UserManagementApplication {
@@ -18,7 +19,4 @@ public class UserManagementApplication {
     public static void main(String[] args) {
         SpringApplication.run(UserManagementApplication.class, args);
     }
-
-
-
 }
