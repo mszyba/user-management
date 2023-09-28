@@ -1,5 +1,6 @@
 package eu.michalszyba.usermanagement.service;
 
+import eu.michalszyba.usermanagement.dto.JwtAuthResponse;
 import eu.michalszyba.usermanagement.dto.LoginDto;
 import eu.michalszyba.usermanagement.dto.RegisterDto;
 import eu.michalszyba.usermanagement.entity.LoginDetail;
@@ -20,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
@@ -58,7 +60,7 @@ public class AuthService {
         return "User Register Successfully!";
     }
 
-    public String login(LoginDto loginDto) {
+    public JwtAuthResponse login(LoginDto loginDto) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                 loginDto.getUsername(),
                 loginDto.getPassword());
@@ -66,8 +68,25 @@ public class AuthService {
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
+        String token = jwtTokenProvider.generateToken(authentication);
 //        loginDetailService.saveLoginSuccessful(loginDto.getUsername(), "");
 
-        return jwtTokenProvider.generateToken(authentication);
+        Optional<User> userOptional = userRepository.findByEmail(loginDto.getUsername());
+
+        String roleName = null;
+        if (userOptional.isPresent()) {
+            User loggedInUser = userOptional.get();
+            Optional<Role> optionalRole = loggedInUser.getRoles().stream().findFirst();
+            if (optionalRole.isPresent()) {
+                Role userRole = optionalRole.get();
+                roleName = userRole.getRoleName();
+            }
+        }
+
+        JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
+        jwtAuthResponse.setRole(roleName);
+        jwtAuthResponse.setAccessToken(token);
+
+        return jwtAuthResponse;
     }
 }
