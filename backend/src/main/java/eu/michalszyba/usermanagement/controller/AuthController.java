@@ -1,5 +1,6 @@
 package eu.michalszyba.usermanagement.controller;
 
+import eu.michalszyba.usermanagement.dto.JwtAuthResponse;
 import eu.michalszyba.usermanagement.dto.LoginDto;
 import eu.michalszyba.usermanagement.dto.RegisterDto;
 import eu.michalszyba.usermanagement.service.AuthService;
@@ -26,9 +27,12 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
-        log.info(loginDto.getUsername() + "*******#" + loginDto.getPassword() + "****************");
-        String response = authService.login(loginDto);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<JwtAuthResponse> login(@RequestBody LoginDto loginDto) {
+        String token = authService.login(loginDto);
+        System.out.println(token + "_TOKEN");
+
+        JwtAuthResponse jwtAuthResponse = new JwtAuthResponse();
+        jwtAuthResponse.setAccessToken(token);
+        return new ResponseEntity<>(jwtAuthResponse, HttpStatus.OK);
     }
 }

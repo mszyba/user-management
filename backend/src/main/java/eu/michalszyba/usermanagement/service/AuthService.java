@@ -8,6 +8,7 @@ import eu.michalszyba.usermanagement.entity.User;
 import eu.michalszyba.usermanagement.exception.AppException;
 import eu.michalszyba.usermanagement.repository.RoleRepository;
 import eu.michalszyba.usermanagement.repository.UserRepository;
+import eu.michalszyba.usermanagement.security.JwtTokenProvider;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,7 @@ public class AuthService {
     private final LoginDetailService loginDetailService;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final JwtTokenProvider jwtTokenProvider;
 
     public String register(RegisterDto registerDto) {
         if (userRepository.existsByEmail(registerDto.getEmail())) {
@@ -61,10 +63,11 @@ public class AuthService {
                 loginDto.getUsername(),
                 loginDto.getPassword());
 
-        Authentication authenticate = authenticationManager.authenticate(authenticationToken);
-        SecurityContextHolder.getContext().setAuthentication(authenticate);
+        Authentication authentication = authenticationManager.authenticate(authenticationToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        loginDetailService.saveLoginSuccessful(loginDto.getUsername(), "");
-        return "User logged-in successfully!";
+//        loginDetailService.saveLoginSuccessful(loginDto.getUsername(), "");
+
+        return jwtTokenProvider.generateToken(authentication);
     }
 }

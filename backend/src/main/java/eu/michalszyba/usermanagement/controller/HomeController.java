@@ -11,6 +11,11 @@ public class HomeController {
         return "No authorization Test";
     }
 
+    @GetMapping({"/home2"})
+    public String home2() {
+        return "authorization Test HOME2";
+    }
+
     @GetMapping({"/api/admin/home"})
     public String homeAdmin() {
         return "Admin Test";

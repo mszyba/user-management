@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/api/employee")
 public class EmployeeController {
 
-    private EmployeeService employeeService;
+    private final EmployeeService employeeService;
 
     @PostMapping("/add")
     public ResponseEntity<EmployeeDto> createEmployee(@RequestBody EmployeeDto employeeDto) {
