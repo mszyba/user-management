@@ -4,43 +4,44 @@ import ListEmployeeComponent from './components/ListEmployeeComponent'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import RegisterComponent from "./components/RegisterComponent";
 import LoginComponent from "./components/LoginComponent";
-import {isUserLoggedIn} from "./services/AuthServices";
+import { isUserLoggedIn } from "./services/AuthServices";
 
 function App() {
   // const [count, setCount] = useState(0)
 
 
-  function AuthenticatedRoute({children}){
+  function AuthenticatedRoute({children}) {
     const isAuth = isUserLoggedIn();
-    if(isAuth) {
+    if (isAuth) {
       return children;
     }
 
-    return <Navigate to="/" />
+    return <Navigate to="/"/>
   }
+
   return (
     <>
-    <BrowserRouter>
-      <HeaderComponent />
+      <BrowserRouter>
+        <HeaderComponent/>
         <Routes>
-          <Route path='/' element = {
+          <Route path='/' element={
             <AuthenticatedRoute>
               <ListEmployeeComponent/>
             </AuthenticatedRoute>
           }/>
 
-          <Route path='/employees' element = {
+          <Route path='/employees' element={
             <AuthenticatedRoute>
               <ListEmployeeComponent/>
             </AuthenticatedRoute>
           }/>
 
-          <Route path={'/register'} element = { <RegisterComponent/> } />
-          <Route path={'/login'} element = { <LoginComponent/> } />
+          <Route path={'/register'} element={<RegisterComponent/>}/>
+          <Route path={'/login'} element={<LoginComponent/>}/>
 
         </Routes>
-    </BrowserRouter>
-    
+      </BrowserRouter>
+
     </>
   )
 }

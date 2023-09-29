@@ -1,14 +1,14 @@
 import React from 'react';
-import {NavLink} from "react-router-dom";
-import {isUserLoggedIn, logout} from "../services/AuthServices";
-import {useNavigate, redirect} from 'react-router-dom'
+import { NavLink } from "react-router-dom";
+import { isUserLoggedIn, logout } from "../services/AuthServices";
+import { useNavigate } from 'react-router-dom'
 
 const HeaderComponent = () => {
 
   const isAuth = isUserLoggedIn();
   const navigate = useNavigate();
 
-  function handleLogout(){
+  function handleLogout() {
     logout();
     navigate('/login');
     // redirect("/login");
@@ -20,7 +20,9 @@ const HeaderComponent = () => {
         <nav className="navbar bg-dark navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
           <div className="container-fluid">
             <a className="navbar-brand" href="http://localhost:3000">Navbar</a>
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <button className="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
               <span className="navbar-toggler-icon"/>
             </button>
             <div className="collapse navbar-collapse" id="navbarNavDropdown">
@@ -29,7 +31,8 @@ const HeaderComponent = () => {
                   <a className="nav-link active" aria-current="page" href="#">Home</a>
                 </li>
                 <li className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                     aria-expanded="false">
                     Dropdown link
                   </a>
                   <ul className="dropdown-menu">

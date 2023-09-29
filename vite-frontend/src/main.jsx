@@ -7,6 +7,6 @@ import 'bootstrap/dist/js/bootstrap.esm.js'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <App />
+    <App/>
   </React.StrictMode>,
 )
