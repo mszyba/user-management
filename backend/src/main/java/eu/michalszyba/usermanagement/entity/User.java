@@ -45,7 +45,7 @@ public class User {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", password length='" + password.length() + '\'' +
-                ", roles=" + roles.stream().map(Role::getRoleName) +
+                ", roles=" + roles.stream().findFirst() +
                 '}';
     }
 }

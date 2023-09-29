@@ -56,7 +56,7 @@ public class AuthService {
         user.setRoles(roles);
         userRepository.save(user);
 
-        log.info("User " + user + " Register Successfully!");
+        log.info(user.toString(), "APP_REGISTER_DONE");
         return "User Register Successfully!";
     }
 
